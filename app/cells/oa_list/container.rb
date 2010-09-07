@@ -39,7 +39,7 @@ module OAList
       top << anchorsWidget    if top.save?
       top << filtersWidget    unless top.hidden?(:filters)
       top << listWidget       unless top.hidden?(:list)
-      top << toolbarWidget    unless (top.hidden?(:toolbar) || top.toolbar.blank?)
+      top << toolbarWidget    if !top.toolbar.blank? && !top.hidden?(:toolbar)
 
       top.respond_to_event :params_changed,   :with => :update_heartbeat, :on => heartbeatWidget.name
       top.respond_to_event :filters_changed,  :with => :update_heartbeat, :on => heartbeatWidget.name

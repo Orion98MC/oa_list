@@ -1,6 +1,7 @@
 /* @override 
 	http://localhost:3000/stylesheets/oa_list/oa_list.css?1283755741
 	http://localhost:3000/stylesheets/oa_list/oa_list.css?1283775743
+	http://localhost:3000/stylesheets/oa_list/oa_list.css?1283857182
 */
 
 /* Container */
@@ -63,7 +64,7 @@ div.oa_list div.toolbar a {
 div.oa_list div.list_frame {
 	border: 1px solid silver;
 	background-color: #eaeaea;
-	margin-bottom: 15px;
+	margin-bottom: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 	overflow: hidden;
@@ -99,6 +100,13 @@ div.oa_list div.list div.items>ul {
 div.oa_list div.list div.items>ul>li {
 	padding: 5px;
 	position: relative;
+}
+
+div.oa_list div.list div.items>ul>li:first-child {
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	-moz-border-radius-topright: 5px;
+	-moz-border-radius-topleft: 5px;
 }
 
 div.oa_list div.list div.items>ul>li:nth-child(odd) {
