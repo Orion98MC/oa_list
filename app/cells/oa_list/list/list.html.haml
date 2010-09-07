@@ -1,0 +1,24 @@
+%div{:id => "#{@cell.name}", :class => "oa_list list"}
+  
+  - if @items.blank?
+
+    %p.empty
+      No items
+
+  - else
+
+    %div.items
+      %ul
+        - @items.each do |item|
+          %li.has_child_nubins
+            
+            - unless @cell.parent.hidden?(:toolbar)
+              %div.nubins.freeze_on_checked.hidden.auto_hide
+                = check_box_tag "Select", item.id, false, :class => 'select_for_action', :onchange => "if (jQuery(this).attr('checked')){jQuery(this).parent().removeClass('auto_hide');} else {jQuery(this).parent().addClass('auto_hide');}"
+            
+            %div.item
+              - content = @cell.parent.list_item_partial.blank? ? item.class.column_names.collect{|cn| item.send(cn) if cn !~ /_id/}.join(", ") : render(:partial => @cell.parent.list_item_partial, :locals => {:item => item})
+              = content
+              
+    = will_paginate @items, :params => params_for_event(:paginate), :inner_window => 1, :outer_window => 1, :id => "#{@cell.name}"
+        

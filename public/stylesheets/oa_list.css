@@ -1,0 +1,155 @@
+/* @override 
+	http://localhost:3000/stylesheets/oa_list/oa_list.css?1283755741
+	http://localhost:3000/stylesheets/oa_list/oa_list.css?1283775743
+*/
+
+/* Container */
+
+div.oa_list div.widget_content {
+	padding: 0 5px 0;
+}
+
+
+
+/* Toolbar */
+
+div.oa_list div.toolbar {
+	background-color: #c0c0c0;
+	margin-bottom: 2px;
+	margin-top: 0;
+	padding: 3px 5px;
+	position: relative;
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	-moz-border-radius-topright: 5px;
+	-moz-border-radius-topleft: 5px;
+}
+
+div.oa_list div.toolbar input#check-all {
+	position: absolute;
+	left: 5px;
+}
+
+div.oa_list div.toolbar ul.toolbar_actions {
+	display: inline;
+	margin: 0 0 0 20px;
+	padding: 0;
+	list-style: none;
+}
+
+div.oa_list div.toolbar ul.toolbar_actions>li {
+	display: inline;
+	margin-left: 10px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	background-color: #ebfafe;
+	/*border: 1px solid gray;*/
+	padding: 0 10px;
+}
+
+div.oa_list div.toolbar ul.toolbar_actions>li:first-child {
+	margin-left: 5px;
+}
+
+div.oa_list div.toolbar a {
+	color: #0098f8;
+	text-decoration: none;
+	font: 11px Verdana, "Lucida Grande", Lucida, sans-serif;
+}
+
+
+/* List */
+
+div.oa_list div.list_frame {
+	border: 1px solid silver;
+	background-color: #eaeaea;
+	margin-bottom: 15px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+div.oa_list div.list {
+	margin: 0 0 5px;
+}
+
+div.oa_list div.list div.pagination {
+	margin: 0 30px 0px;
+	padding: 2px 0;
+	text-align: center;
+	color: #424242;
+	font: 13px Verdana, "Lucida Grande", Lucida, sans-serif;
+}
+
+div.oa_list div.list div.pagination a {
+	color: #0098f8;
+}
+
+div.oa_list div.list div.items {
+	margin-bottom: 5px;
+}
+
+div.oa_list div.list div.items>ul {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+div.oa_list div.list div.items>ul>li {
+	padding: 5px;
+	position: relative;
+}
+
+div.oa_list div.list div.items>ul>li:nth-child(odd) {
+	background-color: #daf3fd;
+}
+
+div.oa_list div.list div.items>ul>li:nth-child(even) {
+	background-color: #fefef2;
+}
+
+div.oa_list div.list div.items>ul>li div.item {
+	margin: 0 0 0 25px;
+	padding: 0;
+}
+
+div.oa_list div.list div.items>ul>li div.item>p {
+	margin: 0;
+	padding: 0;	
+}
+
+div.oa_list div.list div.items div.nubins {
+	position: absolute;
+	left: 5px;
+}
+
+/* search */
+
+div.oa_list div.search {
+	position: relative;
+	border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
+	-moz-border-radius-topright: 10px;
+	-moz-border-radius-topleft: 10px;
+	/*background-color: #686868;*/
+	/*padding: 5px 0;*/
+}
+
+div.oa_list div.search input {
+	position: relative;
+	width: 300px;
+	font-size: 16px;
+	margin-left: 0px;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	padding: 1px 10px;
+	border: 1px solid silver;
+	color: #5e5e5e;
+	display: inline;
+}
+
+div.oa_list div.search div.contextual_actions {
+	display: inline;
+	margin-left: 15px;
+}

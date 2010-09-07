@@ -1,0 +1,137 @@
+OAList for rails
+======
+
+"OAList" as in "Orion's Apotomo List".
+This List widget makes easy to add listing functionality to any rails application.
+
+
+Pre-requisits
+=============
+
+OAWidget, see: http://github.com/Orion98MC/oa_widget
+will_paginate for notes pagination, see: http://github.com/mislav/will_paginate
+jQuery UI autocomplete, see: http://jqueryui.com/
+
+
+Install
+=======
+
+$ cd my_rails_app
+$ ./script/plugins install git://github.com/Orion98MC/oa_list.git
+
+Then, you have to sync the public resources of the plugin to your app's public directory:
+
+$ rake oa_list:sync_resources
+
+Since you want to manage a list of items, you need to have a model for the items.
+
+
+About styling and javascript include:
+-------------------------------------
+
+Since the OAWidget and OAList widgets use custom styling and javascript tools, you must include the stylesheets and javacripts in the head of your layout. To help you include the correct set of files, there are helper methods which output the list of required files:
+
+  #oa_widget_javascripts
+  #oa_list_javascripts
+  #oa_widget_stylesheets
+  #oa_list_stylesheets
+
+Example of includes to add in app/views/layouts/application.html.haml:
+...
+  %head
+    ...
+    = javascript_include_tag oa_widget_javascripts, oa_list_javascripts
+    = stylesheet_link_tag oa_widget_stylesheets, oa_list_stylesheets
+
+
+Usage
+=====
+
+ OAList::Container.new("a_list_name", OPTIONS)
+
+ OPTIONS: A hash with following options:
+
+ :collection => string (ex: :collection => "@post.commentaries" or :collection => "Items")
+ :save => lambda {|config| ...save config hash... } 
+
+scopes:
+ :search => a named scope of the model used for searches, it receives self as parameter when called.
+ :auto_complete => a named scope of the model used for auto-completion, it receives self as parameter when called.
+ :check_existance => a named scope of the model used for checking existance of an item, it receives self as parameter when called. It should output the result of the search. If ONE item is found then it's considered to be existant
+ :views => [['My scope 1', :scope1], ...] an array of named scopes for view filter 
+ :sorts => [['My filter 1', :filter1], ...] an array of named scopes for the sorting filter
+
+toolbar:
+ :toolbar => [['Mark done', :mark_done!], ['Delete', :delete!, "blah"]] an array of model's methods for the toolbar 
+   Each element of the list is composed of a 'Label' then a Method symbol and an optional 3rd field which when specified means the action needs a user confirmation.
+
+customizations:
+ :hide => [:search, :filters, :toolbar, :list]
+ :pages => [['5', 5], ['Many', 100], ...] an array of per_pages for the per_page filter
+ :list_item_partial => 'partial/path' the partial to use when rendering items in the list. it is passed a :item locals
+ :auto_complete_partial => 'partial/path' the partial to use when rendering the auto-complete list. it is passed the results of the :auto_complete scope found items as :items locals. The output of this partial MUST be a json list of auto-completed items.
+ :contextual_actions_partial => 'partial/path' the partial used for displaying :check_existance results, it receives :item locals. item is a new_record? when not existing, nil when the search_text is empty else it is the found item.
+ :title => string, this is the title to be displayed in the widget's title bar
+
+params:
+ :search_text => string, the text searched using the :search scope
+ :view => integer, the index of the current view scope used in the views array
+ :sort => integer, the index of the current sort scope used in the sorts array
+ :per_page => integer, the number of notes per page used in pagination
+
+
+Authorizations:
+===============
+By default, all toolbar actions are allowed, to allow/forbid the toolbar actions you can create a Authorizations module in OAList module
+Put it in app/cells/oa_list.rb, here is an example:
+
+module OAList
+  module Authorizations
+    def allowed?(action, item)
+      case action
+	  when :delete!
+	    can? :delete, item
+	    ...
+	  else
+	  end
+    end
+  end
+end
+
+Example:
+========
+in app/controllers/dashboard_controller.rb:
+class DashboardController < ApplicationController
+  include Apotomo::Rails::ControllerMethods
+  ...
+  has_widgets do |root|
+    root < OAList::Container.new('my_list', 
+      :collection => "@current_user.assets", # assuming user has many assets 
+      :search => :search, 
+      :list_item_partial => 'partials/asset',
+    )
+  end
+  
+  def show
+    #assuming @current_user is already set here
+  end
+  ...
+end
+
+in app/views/dashboard/show.haml.html:
+...
+  = render_widget 'my_list'
+...
+
+in app/cells/partials/_asset.html.haml
+%p
+  %span.date= asset.created_at
+  %span.desc= asset.description
+  %span.price= asset.price
+
+
+
+Checkout the wiki page for a simple tutorial: http://github.com/Orion98MC/oa_list/wiki
+
+
+Copyright (c) 2010 Thierry Passeron (thierry.passeron@gmail.com), released under the MIT license

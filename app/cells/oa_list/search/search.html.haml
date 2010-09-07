@@ -1,0 +1,24 @@
+- search_id = "#{@cell.name}-search_field"
+- cache_name = "#{@cell.name}-search_cache".gsub(/-/, '_')
+
+:javascript
+  var #{cache_name} = '#{@search_text}';
+  
+%div{:id => "#{@cell.name}", :class => "oa_list search"}
+  = text_field_tag :search_query, @search_text, :class => 'first_responder', :id => search_id, :autocomplete => 'off'
+  = observe_field search_id, :frequency => 0.5, :url => @cell.parent.check_existance.nil? ? url_for_event(:search) : url_for_event(:check_existance), :with => "savedParams('#{@cell.parent.name}', {'search_text': #{cache_name}})", :condition => "#{cache_name} != jQuery('##{search_id}').val()", :before => "#{cache_name} = jQuery('##{search_id}').val();"
+  
+  %div.contextual_actions
+  
+  - unless @cell.parent.auto_complete.blank?
+    :javascript
+      jQuery("##{search_id}").autocomplete({
+        source: function(request, response){
+          jQuery.ajax({
+            url: "#{url_for_event(:auto_complete)}",
+            data: savedParams("#{@cell.parent.name}", {search_text: request.term}),
+            dataType: "json",
+            success: function(data) { response(data); }            
+          })
+        },
+      });

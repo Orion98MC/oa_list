@@ -1,0 +1,4 @@
+- if @cell.parent.auto_complete_partial.blank?
+  = @items.collect{|item| item.class.column_names.collect{|c| item.send(c)}.join(', ')}.to_json
+- else
+  = render :partial => @cell.parent.auto_complete_partial, :locals => {:items => @items}

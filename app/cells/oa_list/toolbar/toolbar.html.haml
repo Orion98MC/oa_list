@@ -1,0 +1,46 @@
+%div{:id => "#{@cell.name}", :class => "oa_list toolbar"}
+
+  -# default toolbar
+  = check_box_tag 'check-all', "check-all", false, {:id => 'check-all', :class => "check-all_##{@cell.parent.name} .select_for_action"}
+
+  - unless @cell.parent.toolbar.blank?
+    %ul.toolbar_actions
+      - @cell.parent.toolbar.each_with_index do |action, index|
+        - (action_name, action_method, confirmation) = action
+        %li= link_to action_name, url_for_event(:toolbar_action), {:class => "action_link_with_checked_nubins_id", :tb_action => index}.merge!(confirmation.blank? ? {} : {:tb_confirm => "#{confirmation}"})
+  
+  :javascript
+    jQuery('##{@cell.name} #check-all').live("click", function(){
+      if (jQuery(this).attr('checked')) {
+        // Check all
+        jQuery(jQuery(this).attr('class').match(/check-all_(.*)/)[1]).each(function(i, e){
+          jQuery(e).attr('checked', true).parent().removeClass('auto_hide').removeClass('hidden');
+        });
+      } else {
+        jQuery(jQuery(this).attr('class').match(/check-all_(.*)/)[1]).each(function(i, e){
+          jQuery(e).attr('checked', false).parent().addClass('auto_hide').addClass('hidden');
+        });
+      }
+    });
+    
+    jQuery(function(){
+      // patch links to ajax call
+      jQuery('div##{@cell.name} a.action_link_with_checked_nubins_id').live("click", function() {
+        
+        var checked_ids = [];
+        jQuery('div##{@cell.parent.name} .nubins input[type="checkbox"]:checked').each(function(index, e){
+          checked_ids.push(jQuery(e).val());
+        });
+        if (checked_ids.size() != 0) {
+          //alert('action: '+ jQuery(this).attr('action') + ' ids: ' + checked_ids.join(', '));
+          confirm_needed = jQuery(this).attr('tb_confirm');
+          action_name = jQuery(this).html();
+          if (confirm_needed && !confirm('Confirm "'+ action_name + '" for ' + checked_ids.size() + " element(s) ?")) {
+    			  return false;
+    			}
+          jQuery.get(this.href + savedParams("#{@cell.parent.name}", {'ids': checked_ids, 'tb_action': jQuery(this).attr('tb_action')}), null, null, "script");
+        }
+        return false;
+      });
+    });
+  	

@@ -1,0 +1,2 @@
+jQuery('##{@cell.name} div.contextual_actions').html('#{escape_javascript(@cell.parent.contextual_actions_partial.blank? ? (@item.nil? ? "" : (@item.new_record? ? "Doesn\'t exist!" : "Exists!")) : (render :partial => @cell.parent.contextual_actions_partial, :locals => {:item => @item}))}')
+  
