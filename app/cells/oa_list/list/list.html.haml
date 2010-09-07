@@ -12,7 +12,7 @@
         - @items.each do |item|
           %li.has_child_nubins
             
-            - unless @cell.parent.hidden?(:toolbar)
+            - unless @cell.parent.hidden?(:toolbar) || @cell.parent.toolbar.blank? 
               %div.nubins.freeze_on_checked.hidden.auto_hide
                 = check_box_tag "Select", item.id, false, :class => 'select_for_action', :onchange => "if (jQuery(this).attr('checked')){jQuery(this).parent().removeClass('auto_hide');} else {jQuery(this).parent().addClass('auto_hide');}"
             
