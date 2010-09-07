@@ -47,7 +47,7 @@ module OAList
       top.respond_to_event :content_changed,  :with => :update_content,   :on => listWidget.name
       top.respond_to_event :search,           :with => :update_content,   :on => listWidget.name
       
-      unless top.hidden?(:toolbar)
+      if !top.toolbar.blank? && !top.hidden?(:toolbar)
         top.respond_to_event :filters_changed,  :with => :reset_check_all,  :on => toolbarWidget.name
         top.respond_to_event :search,           :with => :reset_check_all,  :on => toolbarWidget.name
         top.respond_to_event :paginate,         :with => :reset_check_all,  :on => toolbarWidget.name
