@@ -61,8 +61,8 @@ module OAList
       
       (SAVEABLE_ATTRIBUTES + PRESERVING_PARAMS).each do |attribute|
         @saved_options[attribute] = options[attribute] if options.include?(attribute)
-        next if PRESERVING_PARAMS.include?(attribute)
         instance_variable_set("@#{attribute}", options.delete(attribute))
+        next if PRESERVING_PARAMS.include?(attribute)
         self.class_eval {define_method("#{attribute}".to_sym){ instance_variable_get("@#{attribute}") }}
       end
       
